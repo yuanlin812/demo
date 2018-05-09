@@ -11,7 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'make' 
-                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true 
+                stash includes: '**/target/*.jar', name: 'app'
                 echo 'Building..'
             }
         }
