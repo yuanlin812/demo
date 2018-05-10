@@ -30,7 +30,7 @@ pipeline{
                 echo "start compile"
                 sh 'mkdir -p ${hostpath}'
                 sh 'docker pull registry.isspaas.com/library/maven:3.3-jdk-8'
-                sh docker.image('registry.isspaas.com/library/maven:3.3-jdk-8').inside(sh '-v ${hostpath}:/root/.m2/repository')
+                sh 'docker.image(registry.isspaas.com/library/maven:3.3-jdk-8).inside(-v ${hostpath}:/root/.m2/repository)'
                 sh 'mvn clean compile package'
             }
         }      
