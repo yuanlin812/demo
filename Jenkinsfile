@@ -8,9 +8,11 @@ pipeline {
                 echo 'Checkout..'    
             }
         }
-        stage('Package') { 
+        stage('Build') { 
             steps {
-                echo 'Package..'
+                sh 'make' 
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true 
+                echo 'Building..'
             } 
         }
         stage('Test') {
