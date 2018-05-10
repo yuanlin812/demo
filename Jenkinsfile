@@ -9,8 +9,35 @@ pipeline {
             }
         }
         stage('Package') { 
-            steps { 
-                sh "'mvn' -Dmaven.test.failure.ignore clean package" 
+            steps {
+                def mversion = "${config.mvnVersion}"
+                if(mversion==null||mversion=='') mversion = 'latest'
+                docker.withRegistry('http://registry.isspaas.com','registry_isspaas'){
+                    def pull ="docker pull registry.isspaas.com/library/maven:${mversion}"
+                    sh pull
+                }
+                def goal = getGoal(config)
+                sh "mvn ${goal}"
+                if(Boolean.parseBoolean(config.isPublishJavadoc)){
+                    archive {
+                        artifacts = 'target/*-javadoc.jar'
+                        allowEmptyArchive = 'false'
+                        onlyIfSuccessful = 'true'
+                        fingerprint = 'false'
+                        defaultExcludes = 'true'
+                        caseSensitive = 'true'
+                     }
+                }
+                if(Boolean.parseBoolean(config.isPublishJunit)){
+                    archive {
+                        artifacts = 'target/site/surefire-report.html'
+                        allowEmptyArchive = 'false'
+                        onlyIfSuccessful = 'true'
+                        fingerprint = 'false'
+                        defaultExcludes = 'true'
+                        caseSensitive = 'true'
+                     }
+                }
                 echo 'Package..'
             } 
         }
@@ -26,3 +53,11 @@ pipeline {
         }
     }
 }
+
+withEnv(["JAVA_HOME=${tool name: 'jdk1.8'}"]) {
+     
+     step([$class: 'ArtifactArchiver', artifacts: 'target/donuts-container.war', fingerprint: true])
+     dir('target') {
+       stash name: 'war', includes: 'donuts-container.war'
+     }
+   }
