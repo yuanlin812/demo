@@ -10,7 +10,7 @@ pipeline {
         }
         stage('Package') { 
             steps {
-                mvn 'clean compile package'
+                mvn 'clean'
                 echo 'Packageing..'
             } 
         }
