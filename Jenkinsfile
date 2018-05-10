@@ -27,7 +27,7 @@ pipeline{
         stage('编译+单元测试'){
             steps {
                 echo "start compile"
-                sh 'mvn -Dmaven.test.skip=true -U clean install'
+                sh 'mvn clean compile package'
             }
         }      
     }
