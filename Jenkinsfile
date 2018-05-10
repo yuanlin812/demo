@@ -10,7 +10,8 @@ pipeline {
         }
         stage('Package') { 
             steps {
-                mvn {isPublishJunit:'true',settingsPath:'',text:'maven构建',pomPath:'pom.xml',name:'maven构建',goals:'compile',mvnVersion:'3.3-jdk-8',type:'mvn',order:'1',isPublishJavadoc:'true'}
+                env.PATH = "${tool 'Maven 3'}/bin:${env.PATH}"
+                sh 'mvn clean package'
                 echo 'Packageing..'
             } 
         }
