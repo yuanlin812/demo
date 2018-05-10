@@ -3,6 +3,7 @@ pipeline{
     //定义仓库地址
     environment {
         REPOSITORY="https://github.com/yuanlin812/demo.git"
+        hostpath="/opt/jenkins_maven_repository"
     }
 
     stages {
@@ -27,6 +28,7 @@ pipeline{
         stage('编译+单元测试'){
             steps {
                 echo "start compile"
+                sh 'mkdir -p ${hostpath}''
                 sh 'docker pull registry.isspaas.com/library/maven:3.3-jdk-8'
                 docker.image("registry.isspaas.com/library/maven:3.3-jdk-8").inside("-v ${hostpath}:/root/.m2/repository") 
                 sh 'mvn clean compile package'
