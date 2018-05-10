@@ -8,12 +8,11 @@ pipeline {
                 echo 'Checkout..'    
             }
         }
-        stage('Build') {
-            steps {
-                sh 'make' 
-                stash includes: '**/target/*.jar', name: 'app'
-                echo 'Building..'
-            }
+        stage('Package') { 
+            steps { 
+                sh "'mvn' -Dmaven.test.failure.ignore clean package" 
+                echo 'Package..'
+            } 
         }
         stage('Test') {
             steps {
