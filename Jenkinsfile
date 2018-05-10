@@ -10,7 +10,8 @@ pipeline {
         }
         stage('Package') { 
             steps {
-                sh "mvn clean compile package"
+                sh docker pull registry.isspaas.com/library/maven:3.3-jdk-8
+                sh "mvn -B clean install"
                 echo 'Packageing..'
             } 
         }
