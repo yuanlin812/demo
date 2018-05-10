@@ -8,11 +8,10 @@ pipeline {
                 echo 'Checkout..'    
             }
         }
-        stage('Build') { 
+        stage('Package') { 
             steps {
-                sh 'make' 
-                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true 
-                echo 'Building..'
+                sh 'mvn clean package'
+                echo 'Packageing..'
             } 
         }
         stage('Test') {
