@@ -28,8 +28,9 @@ pipeline{
         stage('编译+单元测试'){
             steps {
                 echo "start compile"
+                sh 'docker pull registry.isspaas.com/library/maven:3.3-jdk-8'
+                docker.image("registry.isspaas.com/library/maven:3.3-jdk-8").inside("-v ${hostpath}:/root/.m2/repository") 
                 sh 'mvn -Dmaven.test.skip=true -U clean install'
-                }
             }
         }      
     }
