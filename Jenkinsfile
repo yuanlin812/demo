@@ -1,4 +1,3 @@
-#!groovy
 pipeline{
     agent any
     //定义仓库地址
@@ -30,7 +29,7 @@ pipeline{
                 echo "start compile"
                 sh 'docker pull registry.isspaas.com/library/maven:3.3-jdk-8'
                 docker.image("registry.isspaas.com/library/maven:3.3-jdk-8").inside("-v ${hostpath}:/root/.m2/repository") 
-                sh 'mvn -Dmaven.test.skip=true -U clean install'
+                sh 'mvn clean compile package'
             }
         }      
     }
