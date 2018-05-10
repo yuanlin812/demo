@@ -10,7 +10,7 @@ pipeline {
         }
         stage('Package') { 
             steps {
-                mvn '{
+                mvn {
                 isPublishJunit = "true" 
                 settingsPath = "" 
                 text = "maven构建" 
@@ -21,7 +21,7 @@ pipeline {
                 type = "mvn" 
                 order = "1" 
                 isPublishJavadoc = "true" 
-        }'
+                }
                 echo 'Packageing..'
             } 
         }
