@@ -30,7 +30,7 @@ pipeline{
         stage('构建docker镜像'){
             steps {
                 echo "start buildDocker"
-                sh 'docker.build(name, dockerFilePath)'
+                sh 'docker build -t HelloWorld .'
             }
         }    
     }
