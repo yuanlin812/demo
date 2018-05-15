@@ -3,11 +3,9 @@ pipeline{
     //定义仓库地址
     environment {
         REPOSITORY="https://github.com/yuanlin812/demo.git"
-        hostpath="/opt/jenkins_maven_repository"
-        dockerFilePath='.'
-        name='yd0509/hello'
     }
-
+    def mvnHome = tool 'M2_HOmE'
+    env.PATH = "${mvnHome}/bin:${env.PATH}"
     stages {
 
         stage('checkout'){
@@ -31,6 +29,9 @@ pipeline{
             steps {
                 echo "start buildDocker"
                 sh 'docker build -t hellosprintboot .'
+                //登录镜像仓库
+                //pushdocker镜像
+
             }
         }    
     }
