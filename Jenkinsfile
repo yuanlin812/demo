@@ -4,8 +4,7 @@ pipeline{
     environment {
         REPOSITORY="https://github.com/yuanlin812/demo.git"
     }
-    def mvnHome = tool 'M2_HOmE'
-    env.PATH = "${mvnHome}/bin:${env.PATH}"
+
     stages {
 
         stage('checkout'){
@@ -21,7 +20,11 @@ pipeline{
         stage('maven构建'){
             steps {
                 echo "start compile"
+                withMaven(
+            maven: 'M3',
+            mavenLocalRepo: '.repository'){
                 sh 'mvn clean compile package'
+            }
             }
         }   
 
